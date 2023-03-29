@@ -5,3 +5,5 @@ function local(){
   cd sui
   cargo build --bin sui-test-validator --bin sui
 }
+
+$@
