@@ -50,7 +50,7 @@ if [[ $GIT_VERSION == "testnet-" ]]; then
     exit
 fi
 
-SN=$((SN-100))
+# SN=$((SN-100))
 echo "Sui git version: $GIT_VERSION"
 echo "The latest sequence number: $SN"
 git clone -b $GIT_VERSION https://github.com/MystenLabs/sui.git && cd sui
