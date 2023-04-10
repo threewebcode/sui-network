@@ -51,8 +51,8 @@ if [[ $GIT_VERSION == "testnet-" ]]; then
 fi
 
 SN=$((SN-100))
-echo $GIT_VERSION
-
+echo "Sui git version: $GIT_VERSION"
+echo "The latest sequence number: $SN"
 git clone -b $GIT_VERSION https://github.com/MystenLabs/sui.git && cd sui
 
 INDEX_DIR="crates/sui-indexer"
@@ -63,7 +63,7 @@ if [[ -e "$INDEX_DIR" && -e "$DOCKER_DIR" ]]; then
     cd -
     cd $DOCKER_DIR;
     docker compose up postgres -d
-    sleep 5s
+    sleep 5s;
     export PGPASSWORD="admin"
     psql -U postgres -p 5432 -h localhost -c 'create database sui_indexer_testnet'
     DB="postgres://postgres:admin@localhost:5432/sui_indexer_testnet"
