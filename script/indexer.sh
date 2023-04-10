@@ -63,12 +63,12 @@ if [[ -e "$INDEX_DIR" && -e "$DOCKER_DIR" ]]; then
     cd -
     cd $DOCKER_DIR;
     docker compose up postgres -d
-    sleep 5s;
-    export PGPASSWORD=admin
+    sleep 5s
+    export PGPASSWORD="admin"
     psql -U postgres -p 5432 -h localhost -c 'create database sui_indexer_testnet'
     DB="postgres://postgres:admin@localhost:5432/sui_indexer_testnet"
     cd -
-    cd $INDEX_DIR;
+    cd $INDEX_DIR
     diesel setup --database-url=$DB
     find . -name 'checkpoint_handler.rs' -exec sed -i "156s/1/$SN/" {} \; 
     cargo run --bin sui-indexer -- --db-url $DB --rpc-client-url $SUI_RPC_HOST
