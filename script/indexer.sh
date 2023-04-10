@@ -8,7 +8,7 @@ commands=('docker' 'curl' 'git' 'cargo' 'jq' 'tr')
 for cli in "${commands[@]}"; do
     if ! command -v $cli &> /dev/null; then
         echo "Please install $cli";
-        exit 0;
+        exit;
     fi
 done
 
@@ -28,7 +28,13 @@ function get_version(){
 GIT_VERSION="testnet-$(get_version)"
 
 if [[ $GIT_VERSION == "testnet-" ]]; then
+    sleep 2s;
     GIT_VERSION="testnet-$(get_version)"
+fi
+
+if [[ $GIT_VERSION == "testnet-" ]]; then
+    echo "$SUI_RPC_HOST is not available";
+    exit;
 fi
 
 echo $GIT_VERSION;
@@ -43,7 +49,8 @@ if [[ -e "$INDEX_DIR" && -e "$DOCKER_DIR" ]]; then
     cd -
     cd $DOCKER_DIR;
     docker compose up postgres -d
-    sleep 10s;
+    sleep 5s;
+    export PGPASSWORD=admin;
     psql -U postgres -p 5432 -h localhost -c 'create database sui_indexer_testnet';
     DB="postgres://postgres:admin@localhost:5432/sui_indexer_testnet";
     cd -
